@@ -1,0 +1,13 @@
+RISCV test
+"test a and b for RISCV ASM"
+{
+0:a0=a; 0:a1=b;
+1:a0=a; 1:a1=b;
+}
+P0             | P1               ;
+li t0, 1       | li t0, 1         ;
+sd t0, (a0)    | LC00:            ;
+sd t0, (a1)    | ld t1, (a1)      ;
+               | bne t0, t1, LC00 ;
+               | ld a5, (a0)      ;
+exists (1:t1=1 /\ 1:a5!=1)

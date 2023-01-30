@@ -1,0 +1,13 @@
+RISCV test
+"test shared_data and flag"
+{
+0:a0=data; 0:a1=flag;
+1:a1=flag; 1:a0=data;
+}
+ P0             | P1               ;
+ li t0, 55      | li t0, 1         ;
+ li t1, 1       | LC00:            ;
+ sd t0, (a0)    | ld t1, (a1)      ;
+ sd t1, (a1)    | bne t0, t1, LC00 ;
+                | ld a5, (a0)      ;
+exists (1:a5!=55)

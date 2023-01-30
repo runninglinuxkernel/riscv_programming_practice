@@ -1,0 +1,15 @@
+C test
+"ab经典内存屏障故障"
+{ }
+P0(int *a, int *b)
+{
+	WRITE_ONCE(*a, 1);
+	WRITE_ONCE(*b, 1);
+}
+
+P1(int *a, int *b)
+{
+	int r0 = READ_ONCE(*b);
+	int r1 = READ_ONCE(*a);
+}
+exists (1:r0=1 /\ 1:r1=0)

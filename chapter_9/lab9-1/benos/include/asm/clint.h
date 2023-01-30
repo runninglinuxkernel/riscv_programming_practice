@@ -1,0 +1,9 @@
+#ifndef __CLINT_RISCV_H__
+#define __CLINT_RISCV_H__
+
+#define VIRT_CLINT_ADDR	0x2000000
+#define VIRT_CLINT_TIMER_CMP (VIRT_CLINT_ADDR + 0x4000)
+
+#define VIRT_CLINT_TIMER_VAL (VIRT_CLINT_ADDR + 0xbff8)
+
+#endif /* __CLINT_RISCV_H__ */

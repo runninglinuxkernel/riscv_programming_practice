@@ -1,0 +1,33 @@
+.section ".text.boot"
+
+.globl _start
+_start:
+
+#	jal a5, 0x80200124
+#      jal a0, 0x80100000
+#	jal a0, 0x802ffffe
+
+#	jal kernel_main
+
+# jal a0, 0x800fffff
+#addi a0, a0, 1
+#li a1, 0x80200000
+#	jalr a0, -2049(a1)
+	/* 关闭中断 */
+	csrw sie, zero
+
+	/* 设置栈, 栈的大小为4KB */
+	la sp, stacks_start
+	li t0, 4096
+	add sp, sp, t0
+
+	jal a0, 0x80300000
+
+	/* 跳转到C语言 */
+	tail kernel_main
+
+.section .data
+.align  12
+.global stacks_start
+stacks_start:
+	.skip 4096

@@ -1,0 +1,16 @@
+C test
+"shared_data and flag test"
+{ }
+P0(int *x, int *y)
+{
+	WRITE_ONCE(*x, 1);
+	smp_mb();
+	int r1 = READ_ONCE(*y);
+}
+P1(int *x, int *y)
+{
+	WRITE_ONCE(*y, 1);
+	smp_mb();
+	int r2 = READ_ONCE(*x);
+}
+exists (0:r1=0 /\ 1:r2=0)

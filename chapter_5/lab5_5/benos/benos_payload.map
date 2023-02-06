@@ -1,0 +1,118 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+                0x0000000000020000                . = 0x20000
+                0x0000000000020000                text_begin = .
+
+.text.boot      0x0000000000020000       0x44
+ *(.text.boot)
+ .text.boot     0x0000000000020000       0x44 build/sbi/sbi_boot_s.o
+                0x0000000000020000                _start
+
+.text           0x0000000000020044      0x574
+ *(.text)
+ .text          0x0000000000020044      0x2bc build/sbi/sbi_lib_c.o
+                0x0000000000020044                read_csr_num
+                0x0000000000020174                write_csr_num
+                0x0000000000020298                log2roundup
+ .text          0x0000000000020300      0x2b8 build/sbi/sbi_main_c.o
+                0x0000000000020300                sbi_set_pmp
+                0x00000000000204e0                sbi_main
+ .text          0x00000000000205b8        0x0 build/sbi/sbi_boot_s.o
+ .text          0x00000000000205b8        0x0 build/sbi/sbi_payload_s.o
+
+.rodata         0x00000000000205b8       0xc0
+ *(.rodata)
+ .rodata        0x00000000000205b8       0xc0 build/sbi/sbi_lib_c.o
+
+.data           0x0000000000021000     0x1000
+ *(.data)
+ .data          0x0000000000021000        0x0 build/sbi/sbi_lib_c.o
+ .data          0x0000000000021000        0x0 build/sbi/sbi_main_c.o
+ .data          0x0000000000021000     0x1000 build/sbi/sbi_boot_s.o
+                0x0000000000021000                stacks_start
+ .data          0x0000000000022000        0x0 build/sbi/sbi_payload_s.o
+                0x0000000000022000                . = ALIGN (0x8)
+                0x0000000000022000                bss_begin = .
+
+.bss            0x0000000000022000        0x0
+ *(.bss*)
+ .bss           0x0000000000022000        0x0 build/sbi/sbi_lib_c.o
+ .bss           0x0000000000022000        0x0 build/sbi/sbi_main_c.o
+ .bss           0x0000000000022000        0x0 build/sbi/sbi_boot_s.o
+ .bss           0x0000000000022000        0x0 build/sbi/sbi_payload_s.o
+                0x0000000000022000                bss_end = .
+                0x0000000000022000                . = 0x22000
+
+.payload        0x0000000000022000     0x3000
+                [!provide]                        PROVIDE (_payload_start = .)
+ *(.payload)
+ .payload       0x0000000000022000     0x3000 build/sbi/sbi_payload_s.o
+                0x0000000000022000                payload_bin
+                0x0000000000025000                . = ALIGN (0x8)
+                0x0000000000025000                PROVIDE (_payload_end = .)
+                0x0000000000005000                PROVIDE (__bin_size = (_payload_end - text_begin))
+LOAD build/sbi/sbi_lib_c.o
+LOAD build/sbi/sbi_main_c.o
+LOAD build/sbi/sbi_boot_s.o
+LOAD build/sbi/sbi_payload_s.o
+OUTPUT(build/sbi/benos_payload.elf elf64-littleriscv)
+
+.rela.dyn       0x0000000000025000        0x0
+ .rela.text.boot
+                0x0000000000025000        0x0 build/sbi/sbi_lib_c.o
+
+.debug_info     0x0000000000000000      0x5f7
+ .debug_info    0x0000000000000000      0x383 build/sbi/sbi_lib_c.o
+ .debug_info    0x0000000000000383      0x246 build/sbi/sbi_main_c.o
+ .debug_info    0x00000000000005c9       0x2e build/sbi/sbi_boot_s.o
+
+.debug_abbrev   0x0000000000000000      0x186
+ .debug_abbrev  0x0000000000000000       0xc7 build/sbi/sbi_lib_c.o
+ .debug_abbrev  0x00000000000000c7       0xab build/sbi/sbi_main_c.o
+ .debug_abbrev  0x0000000000000172       0x14 build/sbi/sbi_boot_s.o
+
+.debug_aranges  0x0000000000000000       0x90
+ .debug_aranges
+                0x0000000000000000       0x30 build/sbi/sbi_lib_c.o
+ .debug_aranges
+                0x0000000000000030       0x30 build/sbi/sbi_main_c.o
+ .debug_aranges
+                0x0000000000000060       0x30 build/sbi/sbi_boot_s.o
+
+.debug_line     0x0000000000000000      0x566
+ .debug_line    0x0000000000000000      0x2b8 build/sbi/sbi_lib_c.o
+ .debug_line    0x00000000000002b8      0x259 build/sbi/sbi_main_c.o
+ .debug_line    0x0000000000000511       0x55 build/sbi/sbi_boot_s.o
+
+.debug_str      0x0000000000000000      0x1ee
+ .debug_str     0x0000000000000000       0xfe build/sbi/sbi_lib_c.o
+                                        0x106 (size before relaxing)
+ .debug_str     0x00000000000000fe       0x86 build/sbi/sbi_main_c.o
+                                        0x14f (size before relaxing)
+ .debug_str     0x0000000000000184       0x6a build/sbi/sbi_boot_s.o
+
+.comment        0x0000000000000000       0x45
+ .comment       0x0000000000000000       0x45 build/sbi/sbi_lib_c.o
+                                         0x46 (size before relaxing)
+ .comment       0x0000000000000045       0x46 build/sbi/sbi_main_c.o
+
+.riscv.attributes
+                0x0000000000000000       0x34
+ .riscv.attributes
+                0x0000000000000000       0x34 build/sbi/sbi_lib_c.o
+ .riscv.attributes
+                0x0000000000000034       0x34 build/sbi/sbi_main_c.o
+ .riscv.attributes
+                0x0000000000000068       0x2e build/sbi/sbi_boot_s.o
+ .riscv.attributes
+                0x0000000000000096       0x2e build/sbi/sbi_payload_s.o
+
+.debug_frame    0x0000000000000000      0x118
+ .debug_frame   0x0000000000000000       0xa0 build/sbi/sbi_lib_c.o
+ .debug_frame   0x00000000000000a0       0x78 build/sbi/sbi_main_c.o

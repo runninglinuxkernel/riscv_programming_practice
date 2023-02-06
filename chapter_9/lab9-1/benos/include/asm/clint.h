@@ -1,0 +1,12 @@
+#ifndef __CLINT_RISCV_H__
+#define __CLINT_RISCV_H__
+
+/* D1S PLIC  基地址 0x1000,0000
+ *     CLINT 基地址 0x1400,0000
+ */
+#define VIRT_CLINT_ADDR	0x14000000
+#define VIRT_CLINT_TIMER_CMP (VIRT_CLINT_ADDR + 0x4000)
+
+//#define VIRT_CLINT_TIMER_VAL (VIRT_CLINT_ADDR + 0xbff8)
+
+#endif /* __CLINT_RISCV_H__ */

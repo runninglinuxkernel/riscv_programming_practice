@@ -1,0 +1,167 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+                0x0000000000020000                . = 0x20000
+                0x0000000000020000                text_begin = .
+
+.text.boot      0x0000000000020000       0x4c
+ *(.text.boot)
+ .text.boot     0x0000000000020000       0x4c build/sbi/sbi_boot_s.o
+                0x0000000000020000                _start
+
+.text           0x0000000000020050     0x1210
+ *(.text)
+ .text          0x0000000000020050      0x2bc build/sbi/sbi_lib_c.o
+                0x0000000000020050                read_csr_num
+                0x0000000000020180                write_csr_num
+                0x00000000000202a4                log2roundup
+ .text          0x000000000002030c      0x2b0 build/sbi/sbi_main_c.o
+                0x000000000002030c                sbi_set_pmp
+                0x00000000000204ec                sbi_main
+ .text          0x00000000000205bc      0x134 build/sbi/sbi_trap_c.o
+                0x0000000000020640                sbi_trap_handler
+                0x00000000000206b4                sbi_trap_init
+ .text          0x00000000000206f0      0xa40 build/sbi/sys-uart_c.o
+                0x000000000002077c                uart_init
+                0x00000000000209c8                uart_send
+                0x0000000000020a38                putchar
+                0x0000000000020a78                uart_recv
+                0x0000000000020ad8                uart_send_string
+                0x0000000000020ff4                sys_uart_printf
+                0x0000000000021060                print_hex
+ .text          0x0000000000021130        0x0 build/sbi/sbi_boot_s.o
+ *fill*         0x0000000000021130        0x0 
+ .text          0x0000000000021130      0x130 build/sbi/sbi_entry_s.o
+                0x0000000000021130                sbi_exception_vector
+ .text          0x0000000000021260        0x0 build/sbi/sbi_payload_s.o
+
+.payload        0x0000000000021260     0x4008
+ .payload       0x0000000000021260     0x4008 build/sbi/sbi_payload_s.o
+                0x0000000000021260                payload_bin
+
+.rodata         0x0000000000025268       0xc0
+ *(.rodata)
+ .rodata        0x0000000000025268       0xc0 build/sbi/sbi_lib_c.o
+
+.rela.dyn       0x0000000000025328        0x0
+ .rela.text.boot
+                0x0000000000025328        0x0 build/sbi/sbi_lib_c.o
+
+.data           0x0000000000026000     0x1000
+ *(.data)
+ .data          0x0000000000026000        0x0 build/sbi/sbi_lib_c.o
+ .data          0x0000000000026000        0x0 build/sbi/sbi_main_c.o
+ .data          0x0000000000026000        0x0 build/sbi/sbi_trap_c.o
+ .data          0x0000000000026000        0x0 build/sbi/sys-uart_c.o
+ .data          0x0000000000026000     0x1000 build/sbi/sbi_boot_s.o
+                0x0000000000026000                stacks_start
+ .data          0x0000000000027000        0x0 build/sbi/sbi_entry_s.o
+ .data          0x0000000000027000        0x0 build/sbi/sbi_payload_s.o
+                0x0000000000027000                . = ALIGN (0x8)
+                0x0000000000027000                bss_begin = .
+
+.bss            0x0000000000027000        0x0
+ *(.bss*)
+ .bss           0x0000000000027000        0x0 build/sbi/sbi_lib_c.o
+ .bss           0x0000000000027000        0x0 build/sbi/sbi_main_c.o
+ .bss           0x0000000000027000        0x0 build/sbi/sbi_trap_c.o
+ .bss           0x0000000000027000        0x0 build/sbi/sys-uart_c.o
+ .bss           0x0000000000027000        0x0 build/sbi/sbi_boot_s.o
+ .bss           0x0000000000027000        0x0 build/sbi/sbi_entry_s.o
+ .bss           0x0000000000027000        0x0 build/sbi/sbi_payload_s.o
+                0x0000000000027000                bss_end = .
+                0x0000000000007000                PROVIDE (__bin_size = (bss_begin - text_begin))
+LOAD build/sbi/sbi_lib_c.o
+LOAD build/sbi/sbi_main_c.o
+LOAD build/sbi/sbi_trap_c.o
+LOAD build/sbi/sys-uart_c.o
+LOAD build/sbi/sbi_boot_s.o
+LOAD build/sbi/sbi_entry_s.o
+LOAD build/sbi/sbi_payload_s.o
+OUTPUT(build/sbi/mysbi.elf elf64-littleriscv)
+
+.debug_info     0x0000000000000000      0xe01
+ .debug_info    0x0000000000000000      0x383 build/sbi/sbi_lib_c.o
+ .debug_info    0x0000000000000383      0x220 build/sbi/sbi_main_c.o
+ .debug_info    0x00000000000005a3      0x309 build/sbi/sbi_trap_c.o
+ .debug_info    0x00000000000008ac      0x4f9 build/sbi/sys-uart_c.o
+ .debug_info    0x0000000000000da5       0x2e build/sbi/sbi_boot_s.o
+ .debug_info    0x0000000000000dd3       0x2e build/sbi/sbi_entry_s.o
+
+.debug_abbrev   0x0000000000000000      0x42a
+ .debug_abbrev  0x0000000000000000       0xc7 build/sbi/sbi_lib_c.o
+ .debug_abbrev  0x00000000000000c7       0xab build/sbi/sbi_main_c.o
+ .debug_abbrev  0x0000000000000172      0x123 build/sbi/sbi_trap_c.o
+ .debug_abbrev  0x0000000000000295      0x16d build/sbi/sys-uart_c.o
+ .debug_abbrev  0x0000000000000402       0x14 build/sbi/sbi_boot_s.o
+ .debug_abbrev  0x0000000000000416       0x14 build/sbi/sbi_entry_s.o
+
+.debug_aranges  0x0000000000000000      0x120
+ .debug_aranges
+                0x0000000000000000       0x30 build/sbi/sbi_lib_c.o
+ .debug_aranges
+                0x0000000000000030       0x30 build/sbi/sbi_main_c.o
+ .debug_aranges
+                0x0000000000000060       0x30 build/sbi/sbi_trap_c.o
+ .debug_aranges
+                0x0000000000000090       0x30 build/sbi/sys-uart_c.o
+ .debug_aranges
+                0x00000000000000c0       0x30 build/sbi/sbi_boot_s.o
+ .debug_aranges
+                0x00000000000000f0       0x30 build/sbi/sbi_entry_s.o
+
+.debug_line     0x0000000000000000      0xfca
+ .debug_line    0x0000000000000000      0x2b8 build/sbi/sbi_lib_c.o
+ .debug_line    0x00000000000002b8      0x255 build/sbi/sbi_main_c.o
+ .debug_line    0x000000000000050d      0x11c build/sbi/sbi_trap_c.o
+ .debug_line    0x0000000000000629      0x740 build/sbi/sys-uart_c.o
+ .debug_line    0x0000000000000d69       0x61 build/sbi/sbi_boot_s.o
+ .debug_line    0x0000000000000dca      0x200 build/sbi/sbi_entry_s.o
+
+.debug_str      0x0000000000000000      0x37e
+ .debug_str     0x0000000000000000       0xec build/sbi/sbi_lib_c.o
+                                        0x106 (size before relaxing)
+ .debug_str     0x00000000000000ec       0x86 build/sbi/sbi_main_c.o
+                                        0x14f (size before relaxing)
+ .debug_str     0x0000000000000172       0x6a build/sbi/sbi_trap_c.o
+                                        0x145 (size before relaxing)
+ .debug_str     0x00000000000001dc      0x128 build/sbi/sys-uart_c.o
+                                        0x225 (size before relaxing)
+ .debug_str     0x0000000000000304       0x6a build/sbi/sbi_boot_s.o
+ .debug_str     0x000000000000036e       0x10 build/sbi/sbi_entry_s.o
+                                         0x6b (size before relaxing)
+
+.comment        0x0000000000000000       0x45
+ .comment       0x0000000000000000       0x45 build/sbi/sbi_lib_c.o
+                                         0x46 (size before relaxing)
+ .comment       0x0000000000000045       0x46 build/sbi/sbi_main_c.o
+ .comment       0x0000000000000045       0x46 build/sbi/sbi_trap_c.o
+ .comment       0x0000000000000045       0x46 build/sbi/sys-uart_c.o
+
+.riscv.attributes
+                0x0000000000000000       0x34
+ .riscv.attributes
+                0x0000000000000000       0x34 build/sbi/sbi_lib_c.o
+ .riscv.attributes
+                0x0000000000000034       0x34 build/sbi/sbi_main_c.o
+ .riscv.attributes
+                0x0000000000000068       0x34 build/sbi/sbi_trap_c.o
+ .riscv.attributes
+                0x000000000000009c       0x30 build/sbi/sys-uart_c.o
+ .riscv.attributes
+                0x00000000000000cc       0x32 build/sbi/sbi_boot_s.o
+ .riscv.attributes
+                0x00000000000000fe       0x32 build/sbi/sbi_entry_s.o
+ .riscv.attributes
+                0x0000000000000130       0x2e build/sbi/sbi_payload_s.o
+
+.debug_frame    0x0000000000000000      0x440
+ .debug_frame   0x0000000000000000       0xa0 build/sbi/sbi_lib_c.o
+ .debug_frame   0x00000000000000a0       0x78 build/sbi/sbi_main_c.o
+ .debug_frame   0x0000000000000118       0xa8 build/sbi/sbi_trap_c.o
+ .debug_frame   0x00000000000001c0      0x280 build/sbi/sys-uart_c.o

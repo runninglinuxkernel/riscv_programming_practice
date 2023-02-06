@@ -1,0 +1,203 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+                0x0000000000022000                . = 0x22000
+                0x0000000000022000                _text.boot = .
+
+.text.boot      0x0000000000022000       0x3c
+ *(.text.boot)
+ .text.boot     0x0000000000022000       0x3c build/benos/boot_s.o
+                0x0000000000022000                _start
+                0x0000000000022040                . = ALIGN (0x8)
+                0x0000000000022040                _text = .
+
+.text           0x0000000000022040     0x198c
+ *(.text)
+ .text          0x0000000000022040      0x258 build/benos/kernel_c.o
+                0x000000000002213c                asm_test
+                0x000000000002224c                kernel_main
+ .text          0x0000000000022298      0x23c build/benos/memset_c.o
+                0x0000000000022488                memset
+ .text          0x00000000000224d4      0x7b0 build/benos/sys-clock_c.o
+                0x0000000000022534                sdelay
+                0x0000000000022c00                sys_clock_init
+ .text          0x0000000000022c84      0xa40 build/benos/sys-uart_c.o
+                0x0000000000022d10                uart_init
+                0x0000000000022f5c                uart_send
+                0x0000000000022fcc                putchar
+                0x000000000002300c                uart_recv
+                0x000000000002306c                uart_send_string
+                0x0000000000023588                sys_uart_printf
+                0x00000000000235f4                print_hex
+ *fill*         0x00000000000236c4        0x4 
+ .text          0x00000000000236c8      0x207 build/benos/asm_test_s.o
+                0x00000000000236c8                my_test_data
+                0x00000000000236d0                load_store_test
+                0x0000000000023704                shift_test
+                0x000000000002374c                add_sub_test
+                0x0000000000023790                add_test
+                0x000000000002379c                branch_test
+                0x00000000000237c0                my_memcpy_test
+                0x00000000000237e4                compare_and_return
+                0x00000000000237fc                sel_test
+                0x0000000000023814                bl_test
+                0x0000000000023830                func_addr
+                0x0000000000023848                func_string
+                0x0000000000023860                func_num_syms
+                0x0000000000023868                op_1
+                0x0000000000023870                op_2
+                0x0000000000023878                macro_test_1
+                0x00000000000238a0                macro_test_2
+ *fill*         0x00000000000238cf        0x1 
+ .text          0x00000000000238d0        0x0 build/benos/boot_s.o
+ .text          0x00000000000238d0       0xe4 build/benos/early_printk_s.o
+                0x00000000000238d0                __init_uart
+                0x0000000000023978                put_uart
+                0x0000000000023990                put_string_uart
+ .text          0x00000000000239b4       0x18 build/benos/memset_s.o
+                0x00000000000239b4                __memset_16bytes_asm
+                0x00000000000239cc                _etext = .
+
+.rodata         0x00000000000239d0       0xab
+ *(.rodata)
+ .rodata        0x00000000000239d0       0x92 build/benos/kernel_c.o
+ *fill*         0x0000000000023a62        0x6 
+ .rodata        0x0000000000023a68       0x13 build/benos/boot_s.o
+                0x0000000000023a68                boot_string
+
+.data           0x0000000000024000     0x1000
+ *(.data)
+ .data          0x0000000000024000        0x0 build/benos/kernel_c.o
+ .data          0x0000000000024000        0x0 build/benos/memset_c.o
+ .data          0x0000000000024000        0x0 build/benos/sys-clock_c.o
+ .data          0x0000000000024000        0x0 build/benos/sys-uart_c.o
+ .data          0x0000000000024000        0x0 build/benos/asm_test_s.o
+ .data          0x0000000000024000     0x1000 build/benos/boot_s.o
+                0x0000000000024000                stacks_start
+ .data          0x0000000000025000        0x0 build/benos/early_printk_s.o
+ .data          0x0000000000025000        0x0 build/benos/memset_s.o
+                0x0000000000025000                . = ALIGN (0x8)
+                0x0000000000025000                bss_begin = .
+
+.bss            0x0000000000025000        0x0
+ *(.bss*)
+ .bss           0x0000000000025000        0x0 build/benos/kernel_c.o
+ .bss           0x0000000000025000        0x0 build/benos/memset_c.o
+ .bss           0x0000000000025000        0x0 build/benos/sys-clock_c.o
+ .bss           0x0000000000025000        0x0 build/benos/sys-uart_c.o
+ .bss           0x0000000000025000        0x0 build/benos/asm_test_s.o
+ .bss           0x0000000000025000        0x0 build/benos/boot_s.o
+ .bss           0x0000000000025000        0x0 build/benos/early_printk_s.o
+ .bss           0x0000000000025000        0x0 build/benos/memset_s.o
+                0x0000000000025000                bss_end = .
+LOAD build/benos/kernel_c.o
+LOAD build/benos/memset_c.o
+LOAD build/benos/sys-clock_c.o
+LOAD build/benos/sys-uart_c.o
+LOAD build/benos/asm_test_s.o
+LOAD build/benos/boot_s.o
+LOAD build/benos/early_printk_s.o
+LOAD build/benos/memset_s.o
+OUTPUT(build/benos/benos.elf elf64-littleriscv)
+
+.debug_info     0x0000000000000000      0xb86
+ .debug_info    0x0000000000000000      0x182 build/benos/kernel_c.o
+ .debug_info    0x0000000000000182      0x1f4 build/benos/memset_c.o
+ .debug_info    0x0000000000000376      0x25f build/benos/sys-clock_c.o
+ .debug_info    0x00000000000005d5      0x4f9 build/benos/sys-uart_c.o
+ .debug_info    0x0000000000000ace       0x2e build/benos/asm_test_s.o
+ .debug_info    0x0000000000000afc       0x2e build/benos/boot_s.o
+ .debug_info    0x0000000000000b2a       0x2e build/benos/early_printk_s.o
+ .debug_info    0x0000000000000b58       0x2e build/benos/memset_s.o
+
+.debug_abbrev   0x0000000000000000      0x48e
+ .debug_abbrev  0x0000000000000000       0xe8 build/benos/kernel_c.o
+ .debug_abbrev  0x00000000000000e8       0xe1 build/benos/memset_c.o
+ .debug_abbrev  0x00000000000001c9      0x108 build/benos/sys-clock_c.o
+ .debug_abbrev  0x00000000000002d1      0x16d build/benos/sys-uart_c.o
+ .debug_abbrev  0x000000000000043e       0x14 build/benos/asm_test_s.o
+ .debug_abbrev  0x0000000000000452       0x14 build/benos/boot_s.o
+ .debug_abbrev  0x0000000000000466       0x14 build/benos/early_printk_s.o
+ .debug_abbrev  0x000000000000047a       0x14 build/benos/memset_s.o
+
+.debug_aranges  0x0000000000000000      0x180
+ .debug_aranges
+                0x0000000000000000       0x30 build/benos/kernel_c.o
+ .debug_aranges
+                0x0000000000000030       0x30 build/benos/memset_c.o
+ .debug_aranges
+                0x0000000000000060       0x30 build/benos/sys-clock_c.o
+ .debug_aranges
+                0x0000000000000090       0x30 build/benos/sys-uart_c.o
+ .debug_aranges
+                0x00000000000000c0       0x30 build/benos/asm_test_s.o
+ .debug_aranges
+                0x00000000000000f0       0x30 build/benos/boot_s.o
+ .debug_aranges
+                0x0000000000000120       0x30 build/benos/early_printk_s.o
+ .debug_aranges
+                0x0000000000000150       0x30 build/benos/memset_s.o
+
+.debug_line     0x0000000000000000     0x1444
+ .debug_line    0x0000000000000000      0x1f5 build/benos/kernel_c.o
+ .debug_line    0x00000000000001f5      0x1d2 build/benos/memset_c.o
+ .debug_line    0x00000000000003c7      0x473 build/benos/sys-clock_c.o
+ .debug_line    0x000000000000083a      0x740 build/benos/sys-uart_c.o
+ .debug_line    0x0000000000000f7a      0x275 build/benos/asm_test_s.o
+ .debug_line    0x00000000000011ef       0x7f build/benos/boot_s.o
+ .debug_line    0x000000000000126e      0x179 build/benos/early_printk_s.o
+ .debug_line    0x00000000000013e7       0x5d build/benos/memset_s.o
+
+.debug_str      0x0000000000000000      0x3a2
+ .debug_str     0x0000000000000000      0x172 build/benos/kernel_c.o
+                                        0x1b7 (size before relaxing)
+ .debug_str     0x0000000000000172       0x50 build/benos/memset_c.o
+                                        0x197 (size before relaxing)
+ .debug_str     0x00000000000001c2       0xa6 build/benos/sys-clock_c.o
+                                        0x1e6 (size before relaxing)
+ .debug_str     0x0000000000000268       0xa5 build/benos/sys-uart_c.o
+                                        0x225 (size before relaxing)
+ .debug_str     0x000000000000030d       0x6a build/benos/asm_test_s.o
+ .debug_str     0x0000000000000377        0xb build/benos/boot_s.o
+                                         0x66 (size before relaxing)
+ .debug_str     0x0000000000000382       0x13 build/benos/early_printk_s.o
+                                         0x6e (size before relaxing)
+ .debug_str     0x0000000000000395        0xd build/benos/memset_s.o
+                                         0x68 (size before relaxing)
+
+.comment        0x0000000000000000       0x45
+ .comment       0x0000000000000000       0x45 build/benos/kernel_c.o
+                                         0x46 (size before relaxing)
+ .comment       0x0000000000000045       0x46 build/benos/memset_c.o
+ .comment       0x0000000000000045       0x46 build/benos/sys-clock_c.o
+ .comment       0x0000000000000045       0x46 build/benos/sys-uart_c.o
+
+.riscv.attributes
+                0x0000000000000000       0x34
+ .riscv.attributes
+                0x0000000000000000       0x30 build/benos/kernel_c.o
+ .riscv.attributes
+                0x0000000000000030       0x30 build/benos/memset_c.o
+ .riscv.attributes
+                0x0000000000000060       0x30 build/benos/sys-clock_c.o
+ .riscv.attributes
+                0x0000000000000090       0x30 build/benos/sys-uart_c.o
+ .riscv.attributes
+                0x00000000000000c0       0x2e build/benos/asm_test_s.o
+ .riscv.attributes
+                0x00000000000000ee       0x32 build/benos/boot_s.o
+ .riscv.attributes
+                0x0000000000000120       0x2e build/benos/early_printk_s.o
+ .riscv.attributes
+                0x000000000000014e       0x2e build/benos/memset_s.o
+
+.debug_frame    0x0000000000000000      0x5d8
+ .debug_frame   0x0000000000000000       0x98 build/benos/kernel_c.o
+ .debug_frame   0x0000000000000098       0xa0 build/benos/memset_c.o
+ .debug_frame   0x0000000000000138      0x220 build/benos/sys-clock_c.o
+ .debug_frame   0x0000000000000358      0x280 build/benos/sys-uart_c.o

@@ -1,0 +1,4 @@
+
+	.section .payload, "ax"
+	.incbin	"benos.bin"
+

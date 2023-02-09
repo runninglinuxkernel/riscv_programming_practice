@@ -1,22 +1,16 @@
 # 新书《RISC-V体系结构：编程与实践》
 
-站在2023年来看处理器的发展，x86_64与ARM64体系结构依然是目前市场上的主流处理器体
-系结构，不过一个可喜的变化是RISC-V受到越来越多学术界和工业界的关注和持续的投入，
-RISC-V有可能成为第三大体系结构。最近几年，国内出现一批优秀的芯片公司，它们基于
-RISC-V体系结构来打造国产芯片，包括MCU、高性能处理器芯片等。
-
-RISC-V体系结构以开放性、先进性、简洁性以及开源性等众多优点，得到了国内外高校的青睐。
-越来越多的高校采用RISC-V体系结构作为蓝本进行讲授，例如《计算机系统基础》、《计算机
-组成原理》、《操作系统》、《嵌入式系统》等计算机专业的核心课程。
-
-由于RISC-V是一个崭新的体系结构，软硬件生态也在逐步完善，为了帮助读者快速和深入了解
-RISC-V体系结构，我们以工程师的视角、结合企业新员工培训以及实际工程项目经验，精心制
-作了几十个有趣的实验。读者可以通过实验来深入学习和理解RISC-V体系结构与编程。
-
-**购买地址:** 
-1. [JD购买链接](https://item.jd.com/13629613.html) : https://item.jd.com/13629613.html
-
 ![image](images/risc-v.jpg)
+
+本repo是《RISC-V体系结构编程与实践》一书的配套实验参考代码和勘误。    
+1. master分支：是本书默认的实验参考代码，基于QEMU和NEMU。     
+2. DongShanPI_D1分支：基于[DongShangPI D1s开发板](https://item.taobao.com/item.htm?&id=695941169493)验证过的实验参考代码，由韦东山团队提供技术支持。    
+
+图书购买地址: https://item.jd.com/13629613.html
+
+订阅视频课程，请用微信扫描下面二维码。     
+
+![image](images/RISC-V-course-qrcode.png)
 
 # 本书特色：
 1. 讲解最新的RISC-V架构
@@ -33,7 +27,6 @@ RISC-V体系结构，我们以工程师的视角、结合企业新员工培训�
 https://gitee.com/benshushu/riscv_programming_practice    
 https://github.com/runninglinuxkernel/riscv_programming_practice   
 
-
 # 实验平台与实验环境说明
 
 本书所有配套实验默认采用如下两个免费的模拟器：      
@@ -46,6 +39,14 @@ https://github.com/runninglinuxkernel/riscv_programming_practice
 2. 主机操作系统：Ubuntu Linux 20.04。
 3. GCC版本：9.3（riscv64-linux-gnu-gcc）。
 4. QEMU版本：4.2.1
+
+# RISC-V视频课程
+
+我们根据本书的目录制作了视频课程，为读者提供 **图书 + 视频课程 + 实验** 的多维度的教学体验。订阅视频课程，请用微信扫描下面二维码。
+
+![image](images/RISC-V-course-qrcode.png)
+
+![image](images/RISC-V-course.png)
 
 #  RISC-V原生笔记本
 如果读者想体验RISC-V原生笔记本，可以购买全球首款RISC-V笔记本ROMA，内置4核高性能处理器，采用12nm/28nm封装，支持GPU，NPU等加速功能, 支持多款流行的Linux发行版。
@@ -60,10 +61,6 @@ https://github.com/runninglinuxkernel/riscv_programming_practice
 
 本repo中的DongShanPI_D1分支是由韦东山团队提供的，基于D1开发板适配本书的实验参考代码。(开发板相关问题请咨询[百问网科技](https://www.100ask.net/))。   
 
-# 配套RISC-V视频课程
-我们根据本书的目录制作了视频课程，为读者提供 **图书 + 视频课程 + 实验** 的多维度的教学体验。视频课程将很快上线，敬请关注“奔跑呢Linux社区”微信公众号。
-
-![image](images/RISC-V-course.png)
 
 # 目录
 第1章 RISC-V介绍  
@@ -98,8 +95,11 @@ https://github.com/runninglinuxkernel/arm64_programming_practice
 # 其他视频课程
 配套视频课程由奔跑吧Linux社区录制完成。   
 购买地址：     
-https://shop115683645.taobao.com/   
-https://weidian.com/?userid=1692165428   
+1. 用微信扫描下面二维码，进入“奔跑吧Linux社区”店铺。    
+![image](images/dianpu-qr-code.png)      
+
+2. 淘宝店铺： https://shop115683645.taobao.com/   
+3. 微店：https://weidian.com/?userid=1692165428   
 
 1. 第3季课程海报
 ![image](images/1.jpg)

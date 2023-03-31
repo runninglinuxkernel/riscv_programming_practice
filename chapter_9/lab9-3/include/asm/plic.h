@@ -17,16 +17,16 @@
 #define PLIC_PENDING(id) (PLIC_BASE + 0x1000 + ((id) / 32) * 4)
 
 /* 中断使能位: 每个处理器核心都有对应的中断使能位*/
-#define PLIC_MENABLE(hart) (PLIC_BASE + 0x2000 + (hart) * 0x80)
+#define PLIC_MENABLE(context) (PLIC_BASE + 0x2000 + (context) * 0x80)
 
 /* 设置每个处理器中每个中断的优先级threshold，当中断优先级大于threshold才会触发中断 */
-#define PLIC_MTHRESHOLD(hart) (PLIC_BASE + 0x200000 + (hart) * 0x1000)
+#define PLIC_MTHRESHOLD(context) (PLIC_BASE + 0x200000 + (context) * 0x1000)
 
 /* Interrupt Claim Process*/
-#define PLIC_MCLAIM(hart) (PLIC_BASE + 0x200004 + (hart) * 0x1000)
+#define PLIC_MCLAIM(context) (PLIC_BASE + 0x200004 + (context) * 0x1000)
 
 /* Interrupt Completion*/
-#define PLIC_MCOMPLETE(hart) (PLIC_BASE + 0x200004 + (hart) * 0x1000)
+#define PLIC_MCOMPLETE(context) (PLIC_BASE + 0x200004 + (context) * 0x1000)
 
 int plic_init();
 void plic_set_prority(int hwirq, int pro);

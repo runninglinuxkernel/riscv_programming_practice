@@ -7,7 +7,7 @@
 
 #define MAX_CPUS 1
 
-#define CPU_TO_HART(cpu) ((cpu) + 1)
+#define CPU_TO_HART(cpu) (2 * cpu + 1)
 
 void plic_set_prority(int hwirq, int pro)
 {

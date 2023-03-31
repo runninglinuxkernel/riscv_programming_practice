@@ -1,9 +1,18 @@
 
 
-有不少读者反馈在其他Linux发行版（如ubuntu 22.04) 中运行第二章的BenOS，没有打印“Welcome RISC-V”。
+1. 有不少读者反馈在其他Linux发行版（如ubuntu 22.04) 中运行第二章的BenOS，没有打印“Welcome RISC-V”。
 这是因为本书默认采用的是Ubuntu 20.04内置的QEMU，其版本为4.2.1。高版本的QEMU需要在SBI中初始化PMP才能运行，
 这部分内容在书上第10章有介绍以及有相关实验。
 
 我们强烈建议读者采用我们推荐的实验环境，见书上第一页“本书约定”一文中的约定。
 我们也建议大家使用我们提供的vmware image或者VirtualBox image，以免在配置环境中浪费过多时间。
 下载方法：关注“奔跑吧Linux社区”微信公众号，输入“risc-v”获取下载地址。
+
+2. 有读者反馈，运行NEMU的时候出现如下分配内存错误：
+riscv64-nemu-interpreter -b benos_payload.bin
+mmap: Cannot allocate memory
+riscv64-nemu-interpreter: src/memory/paddr.c:61: init_mem: Assertion `0' failed.
+make: *** [Makefile:98: run] Aborted (core dumped)
+
+这是因为NEMU主要用于CPU RTL代码验证时候的golden机器，指令级别的差分测试, 所以它的内存开销略大。
+经读者测试过，给vmware虚拟机分配7GB内存，第2章的benos可以正常运行。

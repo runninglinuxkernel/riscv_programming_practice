@@ -1,0 +1,51 @@
+本书提供的VMware/VirtualBox image内置了RVV编译环境，强烈建议大家使用我们的image，免去配置环境的烦恼。
+下载方法：
+关注“奔跑吧Linux社区”微信公众号，输入“risc-v”获取下载地址。
+
+如果读者想自己编译RVV GCC的话，可以参考如下步骤。注意，下面步骤只在Ubuntu 20.04上验证过，其他Linux发行版遇到问题，请自行解决。
+
+1. 编译RVV GCC
+
+$ sudo apt install autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev
+$ sudo mkdir -p /opt/riscv
+$ sudo chmod 777 -R /opt/riscv
+
+$ git clone https://github.com/riscv-collab/riscv-gnu-toolchain.git
+$ cd riscv-gnu-toolchain
+$ git checkout rvv-next
+$ git submodule update --init --recursive
+
+$ mkdir build && cdbuild
+$ ../configure  --prefix=/opt/riscv
+$ make -j4
+
+2. 编译spike
+$ git clone https://github.com/riscv-software-src/riscv-isa-sim.git
+$ cd riscv-isa-sim
+$ git reset v1.1.0 --hard
+$ mkdir build && cd build
+$ ../configure --prefix=/opt/riscv 
+$ make && make install
+
+3. 编译PK kernel
+$ git clone https://github.com/riscv/riscv-pk.git
+$ cd riscv-pk
+$ git reset v1.0.0 --hard
+$ mkdir build && cd build
+$ ../configure --prefix=/opt/riscv --host=riscv64-unknown-elf
+$ make -j4
+$ make install
+
+4. 上述步骤编译完成之后，支持RVV指令的GCC工具链被安装在/opt/riscv目录中。使用vim工具打开“~/.bashrc”文件并在文件末尾添加如下内容。
+export PATH=/opt/riscv/bin:$PATH
+
+执行如下命令。
+$ source ~/.bashrc
+
+接下来我们可以查看GCC的版本。
+$ riscv64-unknown-elf-gcc -v
+
+==================
+
+由于从Github上下载riscv-gnu-toolchain比较慢，我们提前下载并打包了一个，大家可以通过如下方式来获取:
+关注“奔跑吧Linux社区”微信公众号，输入“RVV”获取下载地址。

@@ -3,11 +3,11 @@
 static int test_asm_goto(int a)
 {
 	asm goto (
-			"addi %0, %0, -1\n"
-			"beqz %0, %l[label]\n"
+			"addi t0, %0, -1\n"
+			"beqz t0, %l[label]\n"
 			:
 			: "r" (a)
-			: "memory"
+			: "memory", "t0"
 			: label);
 
 	return 0;
